@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sidequests · Robin Pieterse</title>
+<meta name="description" content="Tools for seeing Microsoft 365 more clearly, built on the side by Robin Pieterse.">
+<meta property="og:title" content="Sidequests">
+<meta property="og:description" content="Tools for seeing Microsoft 365 more clearly, built on the side by Robin Pieterse.">
+<meta property="og:url" content="https://sidequests.tech/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://sidequests.tech/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Sidequests: Things I build after the main quest. Robin Pieterse.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://sidequests.tech/">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script>
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: oklch(22% 0.020 239);
+    --ink: oklch(92.8% 0.012 133);
+    --muted: oklch(70.4% 0.018 231);
+    --rule: oklch(34% 0.028 240);
+    --grid: oklch(76.7% 0.062 236 / 0.05);
+    --sea: oklch(76.7% 0.062 236);
+    --signal: oklch(78.3% 0.130 76);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  :root[data-theme="light"] {
+    --paper: oklch(95.4% 0.010 126); --ink: oklch(27.8% 0.023 241);
+    --muted: oklch(49.9% 0.020 237); --rule: oklch(85.5% 0.016 139);
+    --grid: oklch(45.2% 0.069 239 / 0.06); --sea: oklch(45.2% 0.069 239);
+    --signal: oklch(66.5% 0.136 69);
+    color-scheme: light;
+  }
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); overflow-x: clip; }
+  body {
+    margin: 0;
+    overflow-x: clip;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--ink);
+    font-family: var(--body);
+    font-size: 1.125rem;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--sea); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+
+  .page { max-width: 58rem; margin: 0 auto; padding: 4.5rem 1.5rem 3rem; }
+
+  /* Masthead */
+  .masthead {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    margin: 0 0 2.5rem;
+  }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--display); font-weight: 800; font-size: 1.5rem;
+    letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+  }
+  .wordmark svg { width: 1.9rem; height: 1.9rem; flex: none; }
+  .wordmark span { display: block; line-height: 1.1; }
+  .wordmark .by {
+    font-family: var(--body); font-weight: 400; font-size: 0.95rem;
+    color: var(--muted); letter-spacing: 0; margin-top: 0.15rem;
+  }
+  .theme-toggle {
+    font-family: var(--display); font-weight: 600; font-size: 0.9rem; white-space: nowrap;
+    color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 0.35rem 0.75rem; cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--muted); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  /* Intro */
+  h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.75rem, 8vw, 5.5rem);
+    line-height: 0.98; letter-spacing: -0.035em;
+    margin: 0 0 2rem; max-width: 12ch;
+  }
+  .intro { max-width: 36rem; margin: 0; color: var(--ink); }
+  .intro + .intro { margin-top: 1rem; color: var(--muted); }
+
+  h2 {
+    font-family: var(--display); font-weight: 600; font-size: 1.5rem;
+    letter-spacing: -0.01em; margin: 0 0 0.5rem;
+  }
+  section { margin-top: 5.5rem; }
+  .section-note { color: var(--muted); margin: 0 0 2rem; max-width: 36rem; }
+
+  /* Quests */
+  .quest {
+    display: grid; grid-template-columns: 9rem 1fr; gap: 2rem;
+    padding: 2.25rem 0; border-top: 1px solid var(--rule);
+  }
+  .quest:last-child { border-bottom: 1px solid var(--rule); }
+  .emblem { width: 9rem; height: 9rem; display: block; }
+  .quest h3 {
+    font-family: var(--display); font-weight: 800; font-size: 2rem;
+    letter-spacing: -0.02em; line-height: 1.1; margin: 0 0 0.35rem;
+  }
+  .status {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--display); font-size: 0.9rem; color: var(--muted); margin: 0 0 1rem;
+  }
+  .status::before {
+    content: ""; width: 0.5rem; height: 0.5rem; border-radius: 50%; background: var(--sea);
+  }
+  .quest p.desc { margin: 0 0 1.25rem; max-width: 38rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.75rem 1.5rem; margin: 0; padding: 0; list-style: none; }
+  .actions a { font-family: var(--display); font-weight: 600; font-size: 1rem; }
+  .actions a.primary {
+    display: inline-block; padding: 0.55rem 1.1rem; border-radius: 6px;
+    background: var(--ink); color: var(--paper); text-decoration: none;
+  }
+  .actions a.primary:hover { background: var(--sea); }
+  .actions li { display: flex; align-items: center; }
+
+  /* Emblem drawing */
+  .stroke { stroke: var(--sea); fill: none; }
+  .ring { stroke: var(--rule); fill: none; }
+  .star { fill: var(--ink); }
+  .star.bright { fill: var(--signal); }
+  .blip { fill: var(--signal); }
+  .sweep { fill: var(--sea); opacity: 0.18; transform-origin: 72px 72px; animation: sweep 4s linear 0.3s 1; }
+  .quest:hover .sweep { animation: sweep-hover 4s linear infinite; }
+  .constellation-line {
+    stroke-dasharray: 1; stroke-dashoffset: 1;
+    animation: draw 1.6s var(--ease-out) 0.3s forwards;
+  }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+  @keyframes sweep-hover { to { transform: rotate(360deg); } }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+
+  /* Contributions */
+  .contrib { margin: 0; padding: 0; list-style: none; max-width: 40rem; }
+  .contrib li { padding: 1.25rem 0; border-top: 1px solid var(--rule); }
+  .contrib strong { font-family: var(--display); font-weight: 600; }
+  .contrib span { display: block; color: var(--muted); }
+
+  /* Elsewhere */
+  .elsewhere { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin: 0; padding: 0; list-style: none; }
+  .elsewhere a { font-family: var(--display); font-weight: 600; font-size: 1.25rem; }
+
+  footer {
+    margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+    color: var(--muted); font-size: 0.95rem;
+  }
+
+  @media (max-width: 640px) {
+    .page { padding-top: 3rem; }
+    .quest { grid-template-columns: 1fr; gap: 1.25rem; }
+    .emblem { width: 6.5rem; height: 6.5rem; }
+    section { margin-top: 4rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sweep, .quest:hover .sweep { animation: none; }
+    .constellation-line { animation: none; stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+<main class="page">
+
+  <header>
+    <div class="masthead">
+      <a class="wordmark" href="/">
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <polyline class="stroke" points="12,44 22,28 34,34 46,16 52,30 42,48 34,34" stroke-width="3" stroke-linejoin="round"/>
+          <circle class="star" cx="12" cy="44" r="3.5"/>
+          <circle class="star" cx="22" cy="28" r="3.5"/>
+          <circle class="star" cx="46" cy="16" r="3.5"/>
+          <circle class="star" cx="52" cy="30" r="3"/>
+          <circle class="star" cx="42" cy="48" r="3.5"/>
+          <circle class="star bright" cx="34" cy="34" r="6"/>
+        </svg>
+        <div>
+          <span>Sidequests</span>
+          <span class="by">by Robin Pieterse</span>
+        </div>
+      </a>
+      <button class="theme-toggle" type="button">Light mode</button>
+    </div>
+    <h1>Things I build after the main quest.</h1>
+    <p class="intro">I'm a solutions architect in Johannesburg, working with Microsoft 365 and Azure. My day job is helping organisations plan and run their Microsoft environments.</p>
+    <p class="intro">These are the tools I build on the side, mostly to make that environment easier to see. They're free, open source, and need no sign-in.</p>
+  </header>
+
+  <section aria-labelledby="quests">
+    <h2 id="quests">Quests</h2>
+    <p class="section-note">Live tools you can use right now.</p>
+
+    <article class="quest">
+      <svg class="emblem" viewBox="0 0 144 144" role="img" aria-label="A small constellation of connected stars">
+        <circle class="ring" cx="72" cy="72" r="66"/>
+        <polyline class="stroke constellation-line" pathLength="1" stroke-width="1.5" stroke-linejoin="round"
+          points="28,92 52,60 80,70 104,38 118,64 96,104 80,70"/>
+        <circle class="star" cx="28" cy="92" r="3"/>
+        <circle class="star" cx="52" cy="60" r="3.5"/>
+        <circle class="star bright" cx="80" cy="70" r="5"/>
+        <circle class="star" cx="104" cy="38" r="3"/>
+        <circle class="star" cx="118" cy="64" r="2.5"/>
+        <circle class="star" cx="96" cy="104" r="3.5"/>
+        <circle class="star" cx="40" cy="34" r="1.2" opacity=".5"/>
+        <circle class="star" cx="62" cy="116" r="1.2" opacity=".5"/>
+        <circle class="star" cx="116" cy="96" r="1" opacity=".5"/>
+      </svg>
+      <div>
+        <h3>Constellate</h3>
+        <p class="status">Live</p>
+        <p class="desc">An interactive star chart of Microsoft 365. Each service is a constellation: zoom in to see its features, which plans include them, and links to the official documentation. Filter by plan to see what a licence actually gets you.</p>
+        <ul class="actions">
+          <li><a class="primary" href="https://constellate.sidequests.tech/">Open Constellate</a></li>
+          <li><a href="https://github.com/RobinpZA/constellate">View source</a></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="quest">
+      <svg class="emblem" viewBox="0 0 144 144" role="img" aria-label="A radar display with a rotating sweep">
+        <circle class="ring" cx="72" cy="72" r="66"/>
+        <circle class="ring" cx="72" cy="72" r="44"/>
+        <circle class="ring" cx="72" cy="72" r="22"/>
+        <line class="ring" x1="6" y1="72" x2="138" y2="72"/>
+        <line class="ring" x1="72" y1="6" x2="72" y2="138"/>
+        <path class="sweep" d="M72 72 L72 6 A66 66 0 0 1 128 37 Z"/>
+        <circle class="blip" cx="100" cy="46" r="3.5"/>
+        <circle class="blip" cx="46" cy="98" r="2.5" opacity=".7"/>
+        <circle class="blip" cx="90" cy="104" r="2" opacity=".5"/>
+        <circle class="star" cx="72" cy="72" r="2.5"/>
+      </svg>
+      <div>
+        <h3>M365 Change Radar</h3>
+        <p class="status">Live, updated daily</p>
+        <p class="desc">One searchable list of everything Microsoft has changed across 365, Entra, Azure and Graph. It pulls from the public roadmap, Azure Updates, Microsoft blogs, and the Graph and SDK changelogs, and rebuilds every morning. Filter by product, source, or what's rolling out or retiring.</p>
+        <ul class="actions">
+          <li><a class="primary" href="https://m365updates.sidequests.tech/">Open Change Radar</a></li>
+          <li><a href="https://github.com/RobinpZA/M365-Change-Radar">View source</a></li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section aria-labelledby="contrib">
+    <h2 id="contrib">Contributions</h2>
+    <p class="section-note">Fixes and additions to other people's projects.</p>
+    <ul class="contrib">
+      <li>
+        <strong><a href="https://github.com/microsoft/ARI">Azure Resource Inventory</a></strong> (Microsoft)
+        <span>Added newly retired VM SKUs to the retirement checks, so reports flag them. Merged in <a href="https://github.com/microsoft/ARI/releases/tag/3.6.15">release 3.6.15</a>.</span>
+      </li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="elsewhere">
+    <h2 id="elsewhere">Find me</h2>
+    <p class="section-note">For questions, ideas, or bug reports on any of these tools.</p>
+    <ul class="elsewhere">
+      <li><a href="https://github.com/RobinpZA">GitHub</a></li>
+      <li><a href="https://www.linkedin.com/in/robinpza">LinkedIn</a></li>
+    </ul>
+  </section>
+
+  <footer>
+    sidequests.tech is a personal project. Licensing and product details in these tools are indicative; confirm against Microsoft before quoting.
+  </footer>
+
+</main>
+<script>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.querySelector(".theme-toggle");
+    function sync() {
+      var light = root.dataset.theme === "light";
+      btn.textContent = light ? "Dark mode" : "Light mode";
+    }
+    btn.addEventListener("click", function () {
+      if (root.dataset.theme === "light") delete root.dataset.theme;
+      else root.dataset.theme = "light";
+      try { localStorage.setItem("theme", root.dataset.theme || "dark"); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+</body>
+</html>

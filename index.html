@@ -159,6 +159,7 @@
   .contrib li { padding: 1.25rem 0; border-top: 1px solid var(--rule); }
   .contrib strong { font-family: var(--display); font-weight: 600; }
   .contrib span { display: block; color: var(--muted); }
+  .contrib span + span { margin-top: 0.5rem; }
 
   /* Elsewhere */
   .elsewhere { display: flex; flex-wrap: wrap; gap: 1rem 2rem; margin: 0; padding: 0; list-style: none; }
@@ -298,6 +299,8 @@
       <li>
         <strong><a href="https://github.com/microsoft/ARI" target="_blank" rel="noopener">Azure Resource Inventory</a></strong> (Microsoft)
         <span>Added newly retired VM SKUs to the retirement checks, so reports flag them. Merged in <a href="https://github.com/microsoft/ARI/releases/tag/3.6.15" target="_blank" rel="noopener">release 3.6.15</a>.</span>
+        <span>Fixed the Retiring Feature column showing only commas across 79 inventory modules, and narrowed VM retirements to the VM's own series. Merged in <a href="https://github.com/microsoft/ARI/pull/410" target="_blank" rel="noopener">#410</a>.</span>
+        <span>Fixed flag handling (<code>-IncludeTags</code>, Debug log upload, <code>-Help</code>), replaced <code>exit</code> with <code>throw</code>, and made background jobs load from the running module copy. Merged in <a href="https://github.com/microsoft/ARI/pull/409" target="_blank" rel="noopener">#409</a>.</span>
       </li>
     </ul>
   </section>

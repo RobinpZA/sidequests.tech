@@ -50,6 +50,16 @@ const fmt = (d: Date) => d.toLocaleDateString('en-ZA', { year: 'numeric', month:
   .prose :global(blockquote) { padding-left: 1rem; border-left: 3px solid var(--rule); color: var(--muted); }
   .prose :global(hr) { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
   .prose :global(img) { max-width: 100%; height: auto; }
+  .prose :global(table) {
+    display: block; overflow-x: auto; border-collapse: collapse;
+    margin: 0 0 1.5rem; font-size: 0.9rem; line-height: 1.4;
+  }
+  .prose :global(th), .prose :global(td) {
+    text-align: left; vertical-align: top; padding: 0.5rem 0.75rem 0.5rem 0;
+    border-bottom: 1px solid var(--rule); min-width: 8ch;
+  }
+  .prose :global(th) { font-family: var(--display); font-weight: 600; border-bottom-width: 2px; }
+  .prose :global(td:first-child) { font-weight: 600; }
   .prose :global(code) {
     font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.9em;
     background: var(--grid); border: 1px solid var(--rule); border-radius: 4px; padding: 0.05em 0.3em;

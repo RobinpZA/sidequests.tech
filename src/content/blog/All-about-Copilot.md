@@ -119,7 +119,7 @@ To allow Basic users to access work data agents, and to monitor what they spend,
 
 From the M365 admin center → Billing → Pay-as-you-go, add a billing policy and link it to a Resource Group in your Azure subscription.
 There you can set up budgets and alerts to keep an eye on your spending. Note the budget only sends alerts, it doesn't stop usage.
-Then connect the policy to the service in M365 admin center → Copilot → Billing & usage → Pay-as-you-go services → Microsoft Copilot Chat.
+Then connect the policy to the service in M365 admin center → Copilot → Cost Management → classic Billing & usage → Pay-as-you-go services → Microsoft Copilot Chat.
 
 #### Copilot Studio
 

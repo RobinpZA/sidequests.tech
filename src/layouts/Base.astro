@@ -1,0 +1,124 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  type?: 'website' | 'article';
+}
+const { title, description, type = 'website' } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL('/og.png', Astro.site);
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>{title}</title>
+<meta name="description" content={description}>
+<meta property="og:title" content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:url" content={canonical}>
+<meta property="og:type" content={type}>
+<meta property="og:image" content={ogImage}>
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href={canonical}>
+<meta name="color-scheme" content="dark light">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="alternate" type="application/rss+xml" title="Sidequests blog" href="/blog/rss.xml">
+<script is:inline>
+  try { if (localStorage.getItem("theme") === "light") document.documentElement.dataset.theme = "light"; } catch (e) {}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/tokens.css">
+</head>
+<body>
+<main class="page">
+  <header class="masthead">
+    <a class="wordmark" href="/">
+      <svg viewBox="0 0 64 64" aria-hidden="true">
+        <polyline class="stroke" points="12,44 22,28 34,34 46,16 52,30 42,48 34,34" stroke-width="3" stroke-linejoin="round"/>
+        <circle class="star" cx="12" cy="44" r="3.5"/>
+        <circle class="star" cx="22" cy="28" r="3.5"/>
+        <circle class="star" cx="46" cy="16" r="3.5"/>
+        <circle class="star" cx="52" cy="30" r="3"/>
+        <circle class="star" cx="42" cy="48" r="3.5"/>
+        <circle class="star bright" cx="34" cy="34" r="6"/>
+      </svg>
+      <span>Sidequests</span>
+    </a>
+    <nav class="nav">
+      <a href="/blog/">Blog</a>
+      <button class="theme-toggle" type="button">Light mode</button>
+    </nav>
+  </header>
+  <slot />
+  <footer>
+    sidequests.tech is a personal project by Robin Pieterse. <a href="/blog/rss.xml">RSS</a>
+  </footer>
+</main>
+<script is:inline>
+  (function () {
+    var root = document.documentElement;
+    var btn = document.querySelector(".theme-toggle");
+    function sync() { btn.textContent = root.dataset.theme === "light" ? "Dark mode" : "Light mode"; }
+    btn.addEventListener("click", function () {
+      if (root.dataset.theme === "light") delete root.dataset.theme;
+      else root.dataset.theme = "light";
+      try { localStorage.setItem("theme", root.dataset.theme || "dark"); } catch (e) {}
+      sync();
+    });
+    sync();
+  })();
+</script>
+<!-- Cloudflare Web Analytics --><script is:inline type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6bdb004943a349869c7cc1bbd82fef45"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
+
+<style is:global>
+  *, *::before, *::after { box-sizing: inherit; }
+  html { scroll-padding-top: env(safe-area-inset-top, 0px); overflow-x: clip; }
+  body {
+    margin: 0; overflow-x: clip;
+    background-color: var(--paper);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 32px 32px;
+    color: var(--ink); font-family: var(--body);
+    font-size: 1.125rem; line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--sea); text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  a:hover { text-decoration-thickness: 2px; }
+  a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+  .page { max-width: 58rem; margin: 0 auto; padding: 3rem 1rem 3rem; }
+  .masthead { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 3rem; }
+  .wordmark {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: var(--display); font-weight: 800; font-size: 1.5rem;
+    letter-spacing: -0.02em; color: var(--ink); text-decoration: none;
+  }
+  .wordmark svg { width: 1.9rem; height: 1.9rem; flex: none; }
+  .stroke { stroke: var(--sea); fill: none; }
+  .star { fill: var(--ink); }
+  .star.bright { fill: var(--signal); }
+  .nav { display: flex; align-items: center; gap: 1rem; font-family: var(--display); font-weight: 600; }
+  .nav > a { color: var(--muted); text-decoration: none; }
+  .nav > a:hover { color: var(--ink); }
+  .theme-toggle {
+    font-family: var(--display); font-weight: 600; font-size: 0.9rem; white-space: nowrap;
+    color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 0.35rem 0.75rem; cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--ink); border-color: var(--muted); }
+  .theme-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  footer {
+    margin-top: 6rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+    color: var(--muted); font-size: 0.95rem;
+  }
+  @media (min-width: 641px) { .page { padding: 4.5rem 1.5rem 3rem; } }
+</style>

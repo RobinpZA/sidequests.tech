@@ -1,0 +1,67 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const { title, description, pubDate, updated, tags } = post.data;
+const fmt = (d: Date) => d.toLocaleDateString('en-ZA', { year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+---
+<Base title={`${title} · Sidequests`} description={description} type="article">
+  <article>
+    <header class="post-head">
+      <p class="meta">
+        <time datetime={pubDate.toISOString()}>{fmt(pubDate)}</time>
+        {updated && <span> · Updated <time datetime={updated.toISOString()}>{fmt(updated)}</time></span>}
+      </p>
+      <h1>{title}</h1>
+      {tags && <ul class="tags">{tags.map((t) => <li>{t}</li>)}</ul>}
+    </header>
+    <div class="prose"><Content /></div>
+  </article>
+</Base>
+
+<style>
+  .post-head, .prose { max-width: 68ch; }
+  .meta { font-family: var(--display); font-size: 0.9rem; color: var(--muted); margin: 0 0 0.75rem; }
+  h1 {
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.25rem, 7vw, 3.75rem);
+    line-height: 1.02; letter-spacing: -0.03em; margin: 0 0 1rem; overflow-wrap: anywhere;
+  }
+  .tags { display: flex; flex-wrap: wrap; gap: 0.5rem; list-style: none; margin: 0 0 2rem; padding: 0; }
+  .tags li {
+    font-family: var(--display); font-size: 0.85rem; color: var(--muted);
+    border: 1px solid var(--rule); border-radius: 6px; padding: 0.1rem 0.5rem;
+  }
+  .prose { overflow-wrap: break-word; }
+  .prose :global(h2), .prose :global(h3), .prose :global(h4) {
+    font-family: var(--display); letter-spacing: -0.01em; line-height: 1.2; margin: 2.5rem 0 0.75rem;
+  }
+  .prose :global(h2) { font-weight: 600; font-size: 1.6rem; }
+  .prose :global(h3) { font-weight: 600; font-size: 1.25rem; }
+  .prose :global(p), .prose :global(ul), .prose :global(ol), .prose :global(blockquote) { margin: 0 0 1.25rem; }
+  .prose :global(li) { margin: 0.25rem 0; }
+  .prose :global(blockquote) { padding-left: 1rem; border-left: 3px solid var(--rule); color: var(--muted); }
+  .prose :global(hr) { border: 0; border-top: 1px solid var(--rule); margin: 2.5rem 0; }
+  .prose :global(img) { max-width: 100%; height: auto; }
+  .prose :global(code) {
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: 0.9em;
+    background: var(--grid); border: 1px solid var(--rule); border-radius: 4px; padding: 0.05em 0.3em;
+  }
+  .prose :global(pre) {
+    overflow-x: auto; margin: 0 0 1.5rem; padding: 1rem;
+    background: var(--paper); border: 1px solid var(--rule); border-radius: 6px;
+    font-size: 0.9rem; line-height: 1.5;
+  }
+  .prose :global(pre code) { background: none; border: 0; padding: 0; font-size: inherit; }
+  .prose :global(.astro-code), .prose :global(.astro-code span) { color: var(--shiki-dark); background-color: transparent; }
+  .prose :global(.astro-code) { background-color: var(--paper); }
+  :global(:root[data-theme="light"]) .prose :global(.astro-code),
+  :global(:root[data-theme="light"]) .prose :global(.astro-code span) { color: var(--shiki-light); }
+</style>

@@ -1,0 +1,23 @@
+  :root {
+    --paper: oklch(22% 0.020 239);
+    --ink: oklch(92.8% 0.012 133);
+    --muted: oklch(70.4% 0.018 231);
+    --rule: oklch(34% 0.028 240);
+    --grid: oklch(76.7% 0.062 236 / 0.05);
+    --sea: oklch(76.7% 0.062 236);
+    --signal: oklch(78.3% 0.130 76);
+    --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+    --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+    color-scheme: dark;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  :root[data-theme="light"] {
+    --paper: oklch(95.4% 0.010 126); --ink: oklch(27.8% 0.023 241);
+    --muted: oklch(49.9% 0.020 237); --rule: oklch(85.5% 0.016 139);
+    --grid: oklch(45.2% 0.069 239 / 0.06); --sea: oklch(45.2% 0.069 239);
+    --signal: oklch(66.5% 0.136 69);
+    color-scheme: light;
+  }

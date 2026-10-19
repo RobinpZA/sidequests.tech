@@ -63,6 +63,12 @@
     font-family: var(--body); font-weight: 400; font-size: 0.95rem;
     color: var(--muted); letter-spacing: 0; margin-top: 0.15rem;
   }
+  .masthead-nav { display: flex; align-items: center; gap: 1.25rem; }
+  .nav-link {
+    font-family: var(--display); font-weight: 600; font-size: 1rem;
+    color: var(--ink); text-decoration: none;
+  }
+  .nav-link:hover { color: var(--sea); }
   .theme-toggle {
     font-family: var(--display); font-weight: 600; font-size: 0.9rem; white-space: nowrap;
     color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 6px;
@@ -180,7 +186,10 @@
           <span class="by">by Robin Pieterse</span>
         </div>
       </a>
-      <button class="theme-toggle" type="button">Light mode</button>
+      <nav class="masthead-nav" aria-label="Site">
+        <a class="nav-link" href="/blog/">Blog</a>
+        <button class="theme-toggle" type="button">Light mode</button>
+      </nav>
     </div>
     <h1>Things I build after the main quest.</h1>
     <p class="intro">I'm a solutions architect in Johannesburg, working with Microsoft 365 and Azure. My day job is helping organisations plan and run their Microsoft environments.</p>

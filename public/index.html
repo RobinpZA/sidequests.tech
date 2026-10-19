@@ -65,10 +65,12 @@
   }
   .masthead-nav { display: flex; align-items: center; gap: 1.25rem; }
   .nav-link {
-    font-family: var(--display); font-weight: 600; font-size: 1rem;
-    color: var(--ink); text-decoration: none;
+    display: inline-block; padding: 0.4rem 1rem; border-radius: 6px;
+    font-family: var(--display); font-weight: 600; font-size: 1rem; white-space: nowrap;
+    background: var(--ink); color: var(--paper); text-decoration: none;
   }
-  .nav-link:hover { color: var(--sea); }
+  .nav-link:hover { background: var(--sea); }
+  .nav-link:focus-visible { border-radius: 6px; }
   .theme-toggle {
     font-family: var(--display); font-weight: 600; font-size: 0.9rem; white-space: nowrap;
     color: var(--muted); background: none; border: 1px solid var(--rule); border-radius: 6px;
@@ -156,6 +158,9 @@
 
   @media (max-width: 640px) {
     .page { padding-top: 3rem; }
+    .masthead { flex-wrap: wrap; }
+    .masthead-nav { gap: 0.5rem; }
+    .nav-link { padding: 0.35rem 0.75rem; }
     .quest { grid-template-columns: 1fr; gap: 1.25rem; }
     .emblem { width: 6.5rem; height: 6.5rem; }
     section { margin-top: 4rem; }
